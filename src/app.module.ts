@@ -7,23 +7,23 @@ import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
 import { ResponseInterceptor } from './common/interceptors/response/response.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ormConfigLocal } from './common/configs/orm.local.config';
+import { ormConfigStaging } from './common/configs/orm.staging.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: process.env.NODE_ENV === 'dev' ? '.env.local' : '.env.staging',
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-      }),
       inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return process.env.NODE_ENV === 'dev'
+          ? ormConfigLocal(configService)
+          : ormConfigStaging(configService);
+      },
     }),
     UserModule,
     CommonModule,
