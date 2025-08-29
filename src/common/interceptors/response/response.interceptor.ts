@@ -15,7 +15,6 @@ export class ResponseInterceptor implements NestInterceptor {
     const response = context.switchToHttp().getResponse();
     const statusCode = response.statusCode;
     const httpMethod: unknown = context.switchToHttp().getRequest().method;
-    console.log(response);
     let message: unknown = '';
 
     return next.handle().pipe(
