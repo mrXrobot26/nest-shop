@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
-import { IsString, IsInt, IsEmail, IsStrongPassword } from 'class-validator';
+import { IsString, IsInt, IsEmail } from 'class-validator';
 
-export class CreateUserDto {
+export class RegisterDTO {
   @IsString()
   @IsEmail()
   @Expose()
@@ -17,6 +17,5 @@ export class CreateUserDto {
   age: number;
   @IsString()
   @Expose()
-  @IsStrongPassword()
   password: string;
 }

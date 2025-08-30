@@ -1,10 +1,23 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Serialize } from 'src/common/Decorators/Serialize.decorator';
 import { getUserDto } from './dto/get-user.dto copy';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CurrentUser } from 'src/common/Decorators/currentUser.decorator';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -21,6 +34,13 @@ export class UserController {
   async getAllUser() {
     const users = await this.userService.getAllUser();
     return users;
+  }
+
+  @Serialize(getUserDto)
+  @Get('/me')
+  async getMe(@CurrentUser() currentUser) {
+    const user = await this.userService.getUserById(currentUser.sub);
+    return user;
   }
 
   @Get('/:id')

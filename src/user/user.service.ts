@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,7 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto) {
     const createdUser = this.userRepo.create(createUserDto);
+    createdUser.password = await hash(createdUser.password, 10);
     await this.userRepo.save(createdUser);
     return createdUser;
   }
@@ -46,5 +48,9 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
     return { message: `User with ID ${id} deleted successfully` };
+  }
+
+  async findUserByEmail(email: string) {
+    return await this.userRepo.findOneBy({ email });
   }
 }
