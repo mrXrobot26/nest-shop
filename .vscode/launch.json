@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug NestJS (dev)",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/cross-env",
+      "runtimeArgs": ["NODE_ENV=dev"],
+      "args": [
+        "${workspaceFolder}/node_modules/@nestjs/cli/bin/nest.js",
+        "start",
+        "--debug",
+        "--watch"
+      ],
+      "autoAttachChildProcesses": true,
+      "restart": true,
+      "sourceMaps": true,
+      "stopOnEntry": false,
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_ENV": "dev"
+      }
+    }
+  ]
+}
