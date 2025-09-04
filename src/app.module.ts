@@ -12,6 +12,7 @@ import { ormConfigLocal } from './common/configs/orm.local.config';
 import { ormConfigStaging } from './common/configs/orm.staging.config';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
+import { EndpointModule } from './endpoint/endpoint.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { RoleModule } from './role/role.module';
     CommonModule,
     AuthModule,
     RoleModule,
+    EndpointModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor }],

@@ -22,14 +22,14 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('/create')
   @Serialize(getUserDto)
   async createUser(@Body() createUserDto: CreateUserDto) {
     const user = await this.userService.createUser(createUserDto);
     return user;
   }
 
-  @Get()
+  @Get('/getAll')
   @Serialize(getUserDto)
   async getAllUser() {
     const users = await this.userService.getAllUser();
