@@ -4,18 +4,17 @@ import { CreateRoleDto } from './dto/createRole.dto';
 import { GetRoleDto } from './dto/getRole.dto';
 import { Serialize } from 'src/common/Decorators/Serialize.decorator';
 import { UpdateRoleDto } from './dto/UpdateRole.dto';
-import { UserService } from 'src/user/user.service';
 
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @Post()
+  @Post('/create')
   async createRole(@Body() createRoleDto: CreateRoleDto) {
     return await this.roleService.createRole(createRoleDto);
   }
 
-  @Get()
+  @Get('/getAll')
   @Serialize(GetRoleDto)
   async getAllRoles(@Query('status') status: string = 'true') {
     return await this.roleService.getAllRoles(status === 'true');
