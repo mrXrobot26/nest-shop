@@ -13,6 +13,7 @@ import { ormConfigStaging } from './common/configs/orm.staging.config';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
 import { EndpointModule } from './endpoint/endpoint.module';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { EndpointModule } from './endpoint/endpoint.module';
     AuthModule,
     RoleModule,
     EndpointModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor }],
