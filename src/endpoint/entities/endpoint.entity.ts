@@ -1,5 +1,6 @@
 import { IsIn } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Permission } from 'src/permission/entities/permission.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Endpoint {
@@ -9,7 +10,9 @@ export class Endpoint {
   path: string;
   @Column({ type: 'enum', enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'] })
   method: string;
-
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @ManyToMany(() => Permission, permission => permission.endpoints)
+  permissions: Permission[];
 }
